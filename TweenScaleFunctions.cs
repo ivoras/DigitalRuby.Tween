@@ -108,6 +108,24 @@ namespace DigitalRuby.Tween
         private static float QuinticEaseInOutFunc(float progress) { return EaseInOutPower(progress, 5); }
 
         /// <summary>
+        /// A quintic (x^8) progress scale function that eases in.
+        /// </summary>
+        public static readonly Func<float, float> OcticEaseIn = OcticEaseInFunc;
+        private static float OcticEaseInFunc(float progress) { return EaseInPower(progress, 8); }
+
+        /// <summary>
+        /// A quintic (x^8) progress scale function that eases out.
+        /// </summary>
+        public static readonly Func<float, float> OcticEaseOut = OcticEaseOutFunc;
+        private static float OcticEaseOutFunc(float progress) { return EaseOutPower(progress, 8); }
+
+        /// <summary>
+        /// A quintic (x^8) progress scale function that eases in and out.
+        /// </summary>
+        public static readonly Func<float, float> OcticEaseInOut = OcticEaseInOutFunc;
+        private static float OcticEaseInOutFunc(float progress) { return EaseInOutPower(progress, 8); }
+
+        /// <summary>
         /// A sine progress scale function that eases in.
         /// </summary>
         public static readonly Func<float, float> SineEaseIn = SineEaseInFunc;
