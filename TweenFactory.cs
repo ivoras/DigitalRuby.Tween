@@ -96,6 +96,31 @@ namespace DigitalRuby.Tween
         /// <param name="progress">Progress handler</param>
         /// <param name="completion">Completion handler</param>
         /// <returns>FloatTween</returns>
+        public static Tween<T> Tween<T>(object key, T start, T end, float duration, Func<float, float> scaleFunc, Action<ITween<T>> progress, Action<ITween<T>> completion = null) where T : struct
+        {
+            switch (typeof(T).Name)
+            {
+                case nameof(Single): return (Tween<T>)(object)Tween(key, (float)(object)start, (float)(object)end, duration, scaleFunc, (Action<ITween<float>>)progress, (Action<ITween<float>>)completion);
+                case nameof(Vector2): return (Tween<T>)(object)Tween(key, (Vector2)(object)start, (Vector2)(object)end, duration, scaleFunc, (Action<ITween<Vector2>>)progress, (Action<ITween<Vector2>>)completion);
+                case nameof(Vector3): return (Tween<T>)(object)Tween(key, (Vector3)(object)start, (Vector3)(object)end, duration, scaleFunc, (Action<ITween<Vector3>>)progress, (Action<ITween<Vector3>>)completion);
+                case nameof(Vector4): return (Tween<T>)(object)Tween(key, (Vector4)(object)start, (Vector4)(object)end, duration, scaleFunc, (Action<ITween<Vector4>>)progress, (Action<ITween<Vector4>>)completion);
+                case nameof(Color): return (Tween<T>)(object)Tween(key, (Color)(object)start, (Color)(object)end, duration, scaleFunc, (Action<ITween<Color>>)progress, (Action<ITween<Color>>)completion);
+                case nameof(Quaternion): return (Tween<T>)(object)Tween(key, (Quaternion)(object)start, (Quaternion)(object)end, duration, scaleFunc, (Action<ITween<Quaternion>>)progress, (Action<ITween<Quaternion>>)completion);
+                default: throw new NotImplementedException();
+            }
+        }
+
+        /// <summary>
+        /// Start and add a float tween
+        /// </summary>
+        /// <param name="key">Key</param>
+        /// <param name="start">Start value</param>
+        /// <param name="end">End value</param>
+        /// <param name="duration">Duration in seconds</param>
+        /// <param name="scaleFunc">Scale function</param>
+        /// <param name="progress">Progress handler</param>
+        /// <param name="completion">Completion handler</param>
+        /// <returns>FloatTween</returns>
         public static FloatTween Tween(object key, float start, float end, float duration, Func<float, float> scaleFunc, System.Action<ITween<float>> progress, System.Action<ITween<float>> completion = null)
         {
             FloatTween t = new FloatTween();
