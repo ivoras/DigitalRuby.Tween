@@ -40,6 +40,7 @@ namespace DigitalRuby.Tween
         private T start;
         private T end;
         private T value;
+        private T previewValue;
 
         private ITween continueWith;
 
@@ -84,6 +85,11 @@ namespace DigitalRuby.Tween
         public T CurrentValue { get { return value; } }
 
         /// <summary>
+        /// Gets the preview value of the tween.
+        /// </summary>
+        public T PreviewValue { get { return previewValue; } }
+
+        /// <summary>
         /// Time function - returns elapsed time for next frame
         /// </summary>
         public System.Func<float> TimeFunc { get; set; }
@@ -111,6 +117,11 @@ namespace DigitalRuby.Tween
         /// Gets the current progress of the tween (0 - 1).
         /// </summary>
         public float CurrentProgress { get; private set; }
+
+        /// <summary>
+        /// Gets the current linear progress of the tween (0 - 1).
+        /// </summary>
+        public float LinearProgress { get; private set; }
 
         /// <summary>
         /// Initializes a new Tween with a given lerp function.
@@ -155,6 +166,7 @@ namespace DigitalRuby.Tween
             this.progressCallback = progress;
             this.completionCallback = completion;
             this.start = start;
+            this.previewValue = start;
             this.end = end;
 
             return this;
@@ -325,7 +337,9 @@ namespace DigitalRuby.Tween
 
 #endif
 
+                LinearProgress = currentTime / duration;
                 CurrentProgress = scaleFunc(currentTime / duration);
+                previewValue = value;
                 value = lerpFunc(this, start, end, CurrentProgress);
                 if (progressCallback != null)
                 {
