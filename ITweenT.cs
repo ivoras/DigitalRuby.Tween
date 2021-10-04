@@ -22,51 +22,32 @@ using UnityEngine;
 namespace DigitalRuby.Tween
 {
     /// <summary>
-    /// Interface for a tween object.
+    /// Interface for a tween object that handles a specific type.
     /// </summary>
-    public interface ITween
+    /// <typeparam name="T">The type to tween.</typeparam>
+    public interface ITween<T> : ITween where T : struct
     {
         /// <summary>
-        /// The key that identifies this tween - can be null
+        /// Gets the current value of the tween.
         /// </summary>
-        object Key { get; }
+        T CurrentValue { get; }
+        T PreviewValue { get; }
 
         /// <summary>
-        /// Gets the current state of the tween.
+        /// Gets the current progress of the tween.
         /// </summary>
-        TweenState State { get; }
+        float CurrentProgress { get; }
+        float LinearProgress { get; }
 
         /// <summary>
-        /// Time function
+        /// Initialize a tween.
         /// </summary>
-        System.Func<float> TimeFunc { get; set; }
-
-        /// <summary>
-        /// Start the tween.
-        /// </summary>
-        void Start();
-
-        /// <summary>
-        /// Pauses the tween.
-        /// </summary>
-        void Pause();
-
-        /// <summary>
-        /// Resumes the paused tween.
-        /// </summary>
-        void Resume();
-
-        /// <summary>
-        /// Stops the tween.
-        /// </summary>
-        /// <param name="stopBehavior">The behavior to use to handle the stop.</param>
-        void Stop(TweenStopBehavior stopBehavior);
-
-        /// <summary>
-        /// Updates the tween.
-        /// </summary>
-        /// <param name="elapsedTime">The elapsed time to add to the tween.</param>
-        /// <returns>True if done, false if not</returns>
-        bool Update(float elapsedTime);
+        /// <param name="start">The start value.</param>
+        /// <param name="end">The end value.</param>
+        /// <param name="duration">The duration of the tween.</param>
+        /// <param name="scaleFunc">A function used to scale progress over time.</param>
+        /// <param name="progress">Progress callback</param>
+        /// <param name="completion">Called when the tween completes</param>
+        Tween<T> Setup(T start, T end, float duration, Func<float, float> scaleFunc, System.Action<ITween<T>> progress, System.Action<ITween<T>> completion = null);
     }
 }
