@@ -1,0 +1,20 @@
+{
+    "name": "DigitalRuby.Tween",
+    "displayName": "Tween",
+    "version": "1.0.0",
+    "unity": "2019.1",
+    "description": "DigitalRuby tween library with small additions",
+    "keywords": [
+      "unity",
+      "tween"
+    ],
+    "author": {
+      "name": "Porohkun"
+    },
+    "samples": [
+    ],
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/porohkun/DigitalRuby.Tween.git"
+    }
+  }
