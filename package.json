@@ -1,7 +1,7 @@
 {
   "name": "digital_ruby.tween",
   "displayName": "Tween",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "unity": "2019.1",
   "description": "DigitalRuby tween library with small additions",
   "keywords": [
