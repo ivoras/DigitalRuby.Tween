@@ -142,6 +142,151 @@ namespace DigitalRuby.Tween
         public static readonly Func<float, float> SineEaseInOut = SineEaseInOutFunc;
         private static float SineEaseInOutFunc(float progress) { return (Mathf.Sin(progress * Mathf.PI - halfPi) + 1) / 2; }
 
+        /// <summary>
+        /// An exponential progress scale function that eases in.
+        /// </summary>
+        public static readonly Func<float, float> ExpoEaseIn = ExpoEaseInFunc;
+        private static float ExpoEaseInFunc(float x) { return x == 0 ? 0 : Mathf.Pow(2, 10 * x - 10); }
+
+        /// <summary>
+        /// An exponential progress scale function that eases out.
+        /// </summary>
+        public static readonly Func<float, float> ExpoEaseOut = ExpoEaseOutFunc;
+        private static float ExpoEaseOutFunc(float x) { return x == 1 ? 1 : 1 - Mathf.Pow(2, -10 * x); }
+
+        /// <summary>
+        /// An exponential progress scale function that eases in and out.
+        /// </summary>
+        public static readonly Func<float, float> ExpoEaseInOut = ExpoEaseInOutFunc;
+        private static float ExpoEaseInOutFunc(float x) {
+            return x == 0
+                ? 0
+                : x == 1
+                    ? 1
+                    : x < 0.5
+                        ? Mathf.Pow(2, 20 * x - 10) / 2
+                        : (2 - Mathf.Pow(2, -20 * x + 10)) / 2;
+        }
+
+        /// <summary>
+        /// A progress scale function close to a circle segment that eases in.
+        /// </summary>
+        public static readonly Func<float, float> CircEaseIn = CircEaseInFunc;
+        private static float CircEaseInFunc(float x) { return 1 - Mathf.Sqrt(1 - Mathf.Pow(x, 2)); }
+
+        /// <summary>
+        /// A progress scale function close to a circle segment that eases out.
+        /// </summary>
+        public static readonly Func<float, float> CircEaseOut = CircEaseOutFunc;
+        private static float CircEaseOutFunc(float x) { return Mathf.Sqrt(1 - Mathf.Pow(x - 1, 2)); }
+
+        /// <summary>
+        /// A progress scale function close to circle segment that eases in and out.
+        /// </summary>
+        public static readonly Func<float, float> CircEaseInOut = CircEaseInOutFunc;
+        private static float CircEaseInOutFunc(float x) {
+            return x < 0.5
+                ? (1 - Mathf.Sqrt(1 - Mathf.Pow(2 * x, 2))) / 2
+                : (Mathf.Sqrt(1 - Mathf.Pow(-2 * x + 2, 2)) + 1) / 2;
+        }
+
+        /// <summary>
+        /// A progress scale function doing a slight bounce that eases in.
+        /// </summary>
+        public static readonly Func<float, float> ElasticEaseIn = ElasticEaseInFunc;
+        private static float ElasticEaseInFunc(float x) {
+            return x == 0
+			? 0
+            : x == 1
+                ? 1
+                : -Mathf.Pow(2, 10 * x - 10) * Mathf.Sin((x * 10 - 10.75f) * c4);
+        }
+
+        /// <summary>
+        /// A progress scale function doing a slight bounce that eases out.
+        /// </summary>
+        public static readonly Func<float, float> ElasticEaseOut = ElasticEaseOutFunc;
+        private static float ElasticEaseOutFunc(float x) {
+            return x == 0
+			? 0
+			: x == 1
+                ? 1
+                : Mathf.Pow(2, -10 * x) * Mathf.Sin((x * 10 - 0.75f) * c4) + 1;
+         }
+
+        /// <summary>
+        /// A progress scale function doing a slight bounce that eases in and out.
+        /// </summary>
+        public static readonly Func<float, float> ElasticEaseInOut = ElasticEaseInOutFunc;
+        private static float ElasticEaseInOutFunc(float x) {
+            return x == 0
+                ? 0
+                : x == 1
+                    ? 1
+                    : x < 0.5
+                        ? -(Mathf.Pow(2, 20 * x - 10) * Mathf.Sin((20 * x - 11.125f) * c5)) / 2
+                        : (Mathf.Pow(2, -20 * x + 10) * Mathf.Sin((20 * x - 11.125f) * c5)) / 2 + 1;
+        }
+
+        /// <summary>
+        /// A progress scale function with a hump that eases in.
+        /// </summary>
+        public static readonly Func<float, float> BackEaseIn = BackEaseInFunc;
+        private static float BackEaseInFunc(float progress) { return c3 * progress * progress * progress - c1 * progress * progress; }
+
+        /// <summary>
+        /// A progress scale function with a hump that eases out.
+        /// </summary>
+        public static readonly Func<float, float> BackEaseOut = BackEaseOutFunc;
+        private static float BackEaseOutFunc(float progress) { return 1 + c3 * Mathf.Pow(progress - 1, 3) + c1 * Mathf.Pow(progress - 1, 2); }
+
+        /// <summary>
+        /// A progress scale function with two humps that eases in and out.
+        /// </summary>
+        public static readonly Func<float, float> BackEaseInOut = BackEaseInOutFunc;
+        private static float BackEaseInOutFunc(float x) {
+            return x < 0.5
+			? (Mathf.Pow(2 * x, 2) * ((c2 + 1) * 2 * x - c2)) / 2
+			: (Mathf.Pow(2 * x - 2, 2) * ((c2 + 1) * (x * 2 - 2) + c2) + 2) / 2;
+        }
+
+        private static float bounceOut(float x) {
+            const float n1 = 7.5625f;
+            const float d1 = 2.75f;
+
+            if (x < 1 / d1) {
+                return n1 * x * x;
+            } else if (x < 2 / d1) {
+                return n1 * (x -= 1.5f / d1) * x + 0.75f;
+            } else if (x < 2.5 / d1) {
+                return n1 * (x -= 2.25f / d1) * x + 0.9375f;
+            } else {
+                return n1 * (x -= 2.625f / d1) * x + 0.984375f;
+            }
+        }
+
+        /// <summary>
+        /// A progress scale function doing several bounces that eases in.
+        /// </summary>
+        public static readonly Func<float, float> BounceEaseIn = BounceEaseInFunc;
+        private static float BounceEaseInFunc(float x) { return 1 - bounceOut(1 - x); }
+
+        /// <summary>
+        /// A progress scale function doing several bounces that eases out.
+        /// </summary>
+        public static readonly Func<float, float> BounceEaseOut = BounceEaseOutFunc;
+        private static float BounceEaseOutFunc(float x) { return bounceOut(x); }
+
+        /// <summary>
+        /// A progress scale function doing several bounces that eases in and out.
+        /// </summary>
+        public static readonly Func<float, float> BounceEaseInOut = BounceEaseInOutFunc;
+        private static float BounceEaseInOutFunc(float x) {
+            return x < 0.5
+                ? (1 - bounceOut(1 - 2 * x)) / 2
+                : (1 + bounceOut(2 * x - 1)) / 2;
+        }
+
         private static float EaseInPower(float progress, int power)
         {
             return Mathf.Pow(progress, power);
